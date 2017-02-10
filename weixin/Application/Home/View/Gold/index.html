@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta charset='utf-8'/>
+	<title>购买金币</title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+</head>
+<body>
+
+ 	<header>
+ 		<img src="<?php echo trim($goods['goods_img'],'.'); ?>" />
+ 	</header>
+
+	<div id="main">
+		<div id="form_main">
+			<ul>
+				<li>
+					<span>游戏账号</span>
+					<input type="text" id="account_id" class="form_input" pattern="[0-9]*" maxlength="5" placeholder="请输入游戏账号" />
+					<span class="tip notice">&#xe696;</span>
+				</li>
+				
+				<li>
+					<span>金币数量</span>
+					<div id="group_select">
+
+						<volist name="goods_details_model" id="details">
+								<a class="select_glod_level <if condition="$details['gold_default']==1">borderChecked  <assign name="goods_price" value="$details['gold_price']" /> </if>" data-id="{$details['id']}" data-price="<?php printf('%.2f',$details['gold_price']/100); ?>">{$details['gold_show']}</a>
+						</volist>
+
+
+						<div style="width:100%;height:10px;"></div>
+					</div>
+				</li>
+
+				<li>
+					<span>总计</span>
+					<span class="pay_price">¥<?php printf('%.2f',$goods_price/100); ?></span>
+				</li>
+
+				<li id="gobuy">
+					<input type="submit" value="确认购买" id="confirm_buy">
+				</li>
+					
+				<li>
+					<span>商品详情</span><br/>
+					<div id="product_introduce">
+							{$goods['goods_details']|htmlspecialchars_decode}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+ 
+
+	<div id="buy">
+		<nav>
+			<span style="font-size:16px;">&#xe602;</span>
+			<span>不需要收货地址</span>
+		</nav>			
+
+		<div class="gray_line"></div>
+
+		<div id="goods_info">
+			<img src="https://pro.modao.cc/uploads2/images/737/7373351/raw_1484898092.png" />
+			<div id="goods_info_gold">
+				 <span>金币</span>
+				 <span id="goods_info_gold_span">¥<?php printf('%.2f',$goods_price/100); ?></span>
+			</div>
+		</div>
+		<div class="gray_line" style="border-top:0;height:8px;"></div>
+
+		<div id="buyer_msg">
+			<span>买家留言:</span>
+			<input type="text" class="form_input" id="msg" maxlength="140" placeholder="140个字以内" />
+		</div>
+		<div class="gray_line" style="border-top:0;height:8px;"></div>
+
+
+		<!-- 消费列表 -->
+		<div id="spend_list">
+				<ul>
+					<li>
+						<div class="spend_box">
+							<div class="spend_name">产品:</div>
+							<div class="spend_number pay_price">¥<?php printf('%.2f',$goods_price/100); ?></div>
+						</div>
+					</li>
+					<li>
+						<div class="spend_box">
+							<div class="spend_name">运费:</div>
+							<div class="spend_number">+¥0.00</div>
+						</div>
+					</li>
+
+					<li>
+						<div class="spend_box font_color_yellow">
+							<div class="spend_name">合计:</div>
+							<div class="spend_number pay_price">¥<?php printf('%.2f',$goods_price/100); ?></div>
+						</div>
+					</li>
+
+				</ul>
+		</div>
+
+		<div id="weixin_pay">
+			<input type="submit" value="微信支付" onclick="callpay()" />
+			<input type="button" value="返回上一页" id="start_choose" style="margin-top:20px;background:#3a983a;"/>
+		</div>
+	</div>
+		
+
+
+		<script type="text/javascript" src="http://www.zeptojs.cn/zepto.min.js"></script>
+		<script>
+
+			var isPay = false;
+			var jsApiParam;
+			var jsApiCall   = null;
+            var confirm_buy = document.querySelector('#confirm_buy');
+            var header      = document.querySelector('header');
+            var main        = document.querySelector('#main');
+            var buy         = document.querySelector('#buy');
+
+ 
+
+			$(function(){
+
+				//当点击选择时
+				$('.select_glod_level').on('click',function(){
+					$('.select_glod_level').removeClass('borderChecked');
+					var price = $(this).addClass('borderChecked').attr('data-price');
+					//更新价格
+					$('.pay_price,#goods_info_gold_span').html('¥'+price);
+				});
+
+
+				$('#account_id').blur(function(){
+					var account_id = $(this).val();
+					$.get('{:U("Gold/checkAccountId")}',{'account_id':account_id},function(data){
+						 if(data.code==200){
+						 	$('.tip').removeClass('notice').html('&#xe614;');
+						 	$('#confirm_buy').css('background','#04be02');
+						 	isPay = true;
+						 }else{
+						 	$('.tip').addClass('notice').html('&#xe696;');
+						 	$('#confirm_buy').css('background','#787b78');
+						 	isPay = false;
+						 }
+					});
+				});
+
+			});	
+
+
+			//重新选择
+			$('#start_choose').on('click',function(){
+				header.style.display = 'block';
+				main.style.display   = 'block';
+				buy.style.display    = 'none';
+			});
+
+          
+
+            //确认购买
+            confirm_buy.onclick = function(){
+
+            		//不可以购买	
+            		if( !isPay ){
+            			return;
+            		}
+
+                    //获取需要支付的商品ID
+                    var goods_details_id = $('.borderChecked').attr('data-id');
+                    var account_id = $('#account_id').val();
+
+                    //ajax请求统一下单接口
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST','{:U("Gold/UnifiedOrder",array("openid"=>$openId))}',true);
+                    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+                    xhr.send("goods_details_id="+goods_details_id+'&account_id='+account_id+'&nickname={$nickname}');
+
+                    xhr.onreadystatechange = function(){
+                            if(this.readyState==4&&this.status==200){
+
+                                jsApiParam = JSON.parse(this.responseText);
+                                jsApiParam.jsapi = JSON.parse( jsApiParam.jsapi );
+
+
+                                if(jsApiParam.code==400){
+                                	alert(jsApiParam.msg);
+                                	return;
+                                }else{
+                                	//进入下一页
+	                                header.style.display = 'none';
+			                    	main.style.display   = 'none';
+			                    	buy.style.display    = 'block';
+                                }
+
+
+                                jsApiCall = function(){
+                                    WeixinJSBridge.invoke(
+                                        'getBrandWCPayRequest',
+                                        jsApiParam.jsapi,
+                                        function(res){
+             								if(res.err_msg == "get_brand_wcpay_request:ok"){
+                          			 	 		//支付成功
+												header.style.display = 'block';
+												main.style.display   = 'block';
+												buy.style.display    = 'none';
+					                        }else{
+					                            alert('支付失败');
+					    			        }
+					                    }
+					            	);
+                                } //jsApiCall end
+                            }//end if
+                    }
+           		}
+
+
+			function callpay(){
+
+					//保存用户留言
+					var msg = $('#msg').val();
+					$.post('{:U("Gold/guestBook")}',{'out_trade_no':jsApiParam.out_trade_no,'msg':msg},function(){});
+
+
+                    if (typeof WeixinJSBridge == "undefined"){
+                        if( document.addEventListener ){
+                            document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                        }else if (document.attachEvent){
+                            document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                            document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                        }
+                    }else{
+                        jsApiCall();
+                    }
+            }
+		</script>
+</html>

@@ -1,0 +1,297 @@
+	
+ 	input {
+ 		-webkit-appearance:none; 
+ 		-webkit-tap-highlight-color:rgba(0,0,0,0);
+        -webkit-user-modify:read-write-plaintext-only;
+    }
+
+	#buy{
+		display:none;
+	}
+
+	*{margin:0;padding:0;outline:0;}
+	html,body{  
+	  	font-family: -apple-system-font,"Helvetica Neue",Arial,sans-serif;
+	    -webkit-tap-highlight-color: transparent;
+	    overflow-x: hidden;
+	}
+	header{
+		width:98%;
+		text-align: center;
+		padding:4px 0;
+		margin:0 auto;
+	}
+	header img{width:100%;}
+
+	#form_main{
+		width:90%;
+		height:500px;   
+		margin:4px auto;
+	}
+
+	#form_main ul li{
+		list-style:none;
+		padding:18px 0 2px 0;
+		border-bottom: 1px solid #d9d9d9;
+		line-height:26px;
+		float:left;
+		width:100%;
+		position: relative;
+	}
+
+	#form_main ul li span{
+		display:inline-block;
+		width:86px;			
+		height:auto;
+		font-weight:bold;
+		float:left;
+	}
+
+	#form_main .form_input{
+		border:0;
+	 	font-size:14px;
+	 	width:66%;
+	}
+
+	#group_select{
+		width:66%;
+		float:left;
+	}
+
+	#group_select .select_glod_level{
+		font-size:13px;
+		border:1px solid gray;
+		padding:2px 10px;
+		display:inline-block;
+		margin-top:6px;
+		margin-left:8px;
+		border-radius:4px;
+		color:#4D4D4D;
+		cursor:pointer;
+		width:80%;
+		text-align:center;
+	}
+
+
+	.weui-number-sub {
+	    border-right: none;
+	    padding: 3px 10px;
+	    border-radius: 2px 0 0 2px;
+	}
+	.weui-number {
+	    float: left;
+	    height: 20px;
+	    font-size: 25px;
+	    color: #3cc51f;
+	    border: 1px solid #ccc;
+	    cursor:pointer;
+	}
+
+	#reduce{
+		line-height:16px;
+		border-right:0;
+	}
+	#add{
+		line-height:20px;
+		border-left:0;
+	}
+
+	.weui-number-input {
+	    float: left;
+	    height: 20px;
+	    font-size: 20px;
+	    color: #666;
+	    -webkit-appearance: none;
+	    appearance: none;
+	    border: 1px solid #ccc;
+	    padding: 3px 0;
+	    text-align: center;
+	    border-radius: 1px;
+	    width:100px;
+	}
+
+	#add_reduce{
+		width:100%;
+		height:28px;
+		margin:14px 0 10px 0;
+	}
+
+	#form_main #gobuy{
+		border-bottom:0;
+	}
+
+	#gobuy input{
+		display:block;
+		margin:6px auto 18px auto; 
+		background: #787b78;
+		width:50%;
+		height:40px;
+		font-size:17px;
+		border:0;
+		color:#fff;
+		border-radius:5px;
+		letter-spacing:1px;
+	}
+
+	#product_introduce{
+		margin:20px 4px;
+	}
+
+
+	@font-face {
+	  font-family: 'iconfont';
+	  src: url('../font/iconfont.eot');
+	  src: url('../font/iconfont.eot?#iefix') format('embedded-opentype'),
+	  url('../font/iconfont.woff') format('woff'),
+	  url('../font/iconfont.ttf') format('truetype'),
+	  url('../font/iconfont.svg#iconfont') format('svg');
+	}
+
+
+	#form_main .tip{
+		position:absolute;
+		right:0;
+		font-family:"iconfont";
+		color:#09bb07;
+	}
+
+	#form_main .notice{
+		font-weight:normal;
+		font-size:24px;
+		color:red;
+	}
+
+
+
+	#buy{
+		position:absolute;
+		top:0;left:0;
+		width:100%;
+		height:100%;
+		background:#dcdcdc;
+	}
+	#buy nav span{
+		font-family: 'iconfont';
+	}	
+	#buy nav{
+		width:100%;
+		height:50px;
+		line-height:50px;
+		margin:0 auto;
+		color:#ABABAB;
+		font-weight:bold;
+		font-size:14px;
+		letter-spacing:1px;
+		text-indent:14px;
+		background:white;
+	}
+
+	.gray_line{
+		width:100%;
+		height:10px;
+		background:#dcdcdc;
+		border-top:1px solid #999999;
+	}
+
+	#goods_info{
+		border-width:1px 0 1px 0;
+		border-color:gray;
+		border-style:solid;
+		width:100%;
+		height:122px;
+		position:relative;
+		background:white;
+
+	}
+	#goods_info img{
+		display:block;
+		width:140px;
+		height:100px;
+		position:absolute;
+		left:10px;top:10px;
+	}
+
+	#goods_info #goods_info_gold{
+		width:100px;
+		height:100px;
+		position:absolute;
+		left:170px;
+		top:10px;
+	}
+	#goods_info #goods_info_gold span{
+		display:block;
+		line-height:54px;
+	}
+
+	#buyer_msg{
+		width:100%;
+		height:40px;
+		line-height:40px;
+		text-indent:8px;
+		background:white;
+	}
+	#buyer_msg span{
+		display:inline-block;
+		width:90px;
+	}
+	#buyer_msg input{
+		border:0;
+		font-size:14px;
+	}
+
+
+	#spend_list li{
+		width:100%;
+		list-style:none;
+		line-height:50px;
+		border-bottom: 1px dashed #d9d9d9;
+		float:left;
+		background:white;
+	}
+	#spend_list li .spend_box{
+		width:92%;
+		margin:0 auto;
+	}
+	#spend_list li .spend_box div{
+		width:50%;
+		float:left;
+	}
+	#spend_list li .spend_name{
+		text-align:left;	
+	}
+	#spend_list li .spend_number{
+		text-align:right;
+		letter-spacing:1px;
+	}
+
+	#spend_list li .font_color_yellow{
+		color:#FF8247;
+	}
+			
+	#weixin_pay{
+		float:left;
+		width:100%;
+		margin:40px auto 18px auto; 
+		text-align:center;
+	}	
+	
+	#weixin_pay input{
+		display:inline-block;
+		background:#04be02;
+		width:70%;
+		height:40px;
+		font-size:17px;
+		border:0;
+		color:#fff;
+		border-radius:5px;
+		letter-spacing:1px;
+	}
+
+
+	/*选中状态*/
+	#group_select  .borderChecked{
+		background:#44b549;
+		color:white;
+	}
+	 
+	
