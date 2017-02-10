@@ -22,10 +22,10 @@ class WxPayConfig
 	 * 获取地址：https://mp.weixin.qq.com/advanced/advanced?action=dev&t=advanced/dev&token=2005451881&lang=zh_CN
 	 * @var string
 	 */
-	const APPID = 'wxa8d22182e73884c1';
-	const MCHID = '1388055902';
-	const KEY = 'sharkpokersxiopguejfporwuxoflred';
-	const APPSECRET = 'a0fd45741dacf37a7e465cdfe70dcb33';
+	const APPID = '';
+	const MCHID = '';
+	const KEY = '';
+	const APPSECRET = '';
 	
 	//=======【证书路径设置】=====================================
 	/**
